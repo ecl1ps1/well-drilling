@@ -8,6 +8,16 @@
   --border-color: #b3e5fc;
 }
 
+.wave--light {
+  --wave-color: #e1f5fe;
+}
+.wave--medium {
+  --wave-color: #b3e5fc;
+}
+.wave--dark {
+  --wave-color: #81d4fa;
+}
+
 html {
   scroll-behavior: smooth; /* Это включает плавную прокрутку для всего сайта */
 }
@@ -43,6 +53,17 @@ p {
   margin-bottom: 15px;
 }
 
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -60,19 +81,50 @@ p {
 }
 
 .btn-top {
-  background-color: #0088cc; /* Твой синий цвет */
-  color: #ffffff;
-  padding: 10px 30px;
-  border-radius: 25px; /* Скругленная форма */
-  text-transform: uppercase;
+  background: #0088cc;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 30px;
+  text-decoration: none;
   font-weight: bold;
   font-size: 14px;
-  text-decoration: none;
-  transition: background 0.3s;
+  position: relative;
+  display: inline-block;
+  transition: all 0.3s ease;
+
+  /* Оставляем только пульсацию и делаем цикл 5 секунд вместо 3 */
+  animation: pulse-slow 5s infinite;
+  box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.5);
 }
 
+/* Описание самой анимации */
+@keyframes pulse-slow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.5);
+  }
+  15% {
+    transform: scale(1.03); /* Совсем небольшое увеличение */
+    /* Тень плавно расходится и исчезает */
+    box-shadow: 0 0 0 15px rgba(0, 136, 204, 0);
+  }
+  30% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
+  }
+  /* Остальное время до 5 секунд кнопка просто спокойно "отдыхает" */
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Эффект при наведении курсора */
 .btn-top:hover {
-  background-color: #0077b5;
+  background: #005f8d;
+  transform: translateY(-2px);
+  /* При наведении анимация останавливается, чтобы не мешать клику */
+  animation-play-state: paused;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Шапка */
@@ -245,10 +297,10 @@ p {
   border: 1px solid var(--soft-blue-bg);
   border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .service-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.02);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -443,6 +495,39 @@ p {
   opacity: 0.7;
 }
 
+.wave-divider {
+  height: 100px; /* увеличили под высоту волны */
+  background-color: #e1f5fe;
+  /* background-color: var(--wave-color); */
+  mask-image: url("src/wavean.svg");
+  mask-repeat: repeat-x;
+  mask-size: 1440px 100%;
+  overflow: hidden;
+  opacity: 0.7;
+}
+
+.wave-divider::after {
+  content: "";
+  position: relative;
+  inset: 0;
+  background: var(--wave-color) url("src/blackwave.svg") repeat-x;
+  opacity: 0.3;
+  animation: waveMove 30s linear infinite reverse;
+}
+
+.wave-divider.flip {
+  transform: rotate(180deg);
+}
+
+@keyframes waveMove {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 1000px;
+  }
+}
+
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
   body {
@@ -465,5 +550,15 @@ p {
   .slider-btn {
     padding: 5px 10px;
     font-size: 18px;
+  }
+
+  .wave-divider {
+    height: 70px;
+    margin-top: -25px;
+    opacity: 0.9;
+  }
+
+  .wave-divider::after {
+    display: none; /* убираем второй слой */
   }
 }
