@@ -137,8 +137,8 @@ p {
 
 /* Секция с фоном воды */
 .intro-water {
-  background-image: url("src/unnamed.png");
-  background-size: 70%;
+  background-image: url("src/water-bg.png");
+  background-size: 80%;
   background-repeat: no-repeat;
   background-position: center;
   padding: 60px 20px;
@@ -364,7 +364,40 @@ p {
   background-color: #01579b;
   color: white;
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Обновленный слой с водой в футере */
+.footer::after {
+  content: "";
+  position: absolute;
+  /* Прижимаем строго к нижнему и правому краю */
+  bottom: 0;
+  right: 0;
+
+  /* Делаем высоту картинки равной 100% высоты футера */
+  height: 100%;
+  /* Ширину ставим побольше, чтобы пропорции всплеска сохранялись */
+  width: 400px;
+
+  background-image: url("src/footer.png");
+  /* background-size: cover заставит картинку растянуться на всю высоту */
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* Выравниваем всплеск по правому нижнему углу внутри этой области */
+  background-position: bottom right;
+
+  opacity: 0.35; /* Оптимальная прозрачность, чтобы не перебивать текст */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Контент футера */
+.footer .container {
+  position: relative;
+  z-index: 2; /* Контент всегда выше картинки */
 }
 .footer h3 {
   color: white;
@@ -372,14 +405,14 @@ p {
 .phones a {
   font-size: 20px;
   font-weight: bold;
-  color: #ffffff; 
+  color: #ffffff;
   display: block;
   margin-bottom: 5px;
   transition: color 0.3s;
 }
 
 .phones a:hover {
-  color: #b3e5fc; 
+  color: #b3e5fc;
 }
 .region {
   font-size: 16px;
